@@ -55,6 +55,7 @@ export default function data() {
       { Header: "status", accessor: "status", align: "center" },
       { Header: "employed", accessor: "employed", align: "center" },
       { Header: "action", accessor: "action", align: "center" },
+      { Header: "action2", accessor: "action2", align: "center" },
     ],
 
     rows: [
@@ -72,6 +73,11 @@ export default function data() {
           </MDTypography>
         ),
         action: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            Edit
+          </MDTypography>
+        ),
+        action2: (
           <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
             Edit
           </MDTypography>
@@ -145,6 +151,139 @@ export default function data() {
         employed: (
           <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
             04/10/21
+          </MDTypography>
+        ),
+        action: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            Edit
+          </MDTypography>
+        ),
+      },
+      {
+        author: <Author image={team4} name="Miriam Eric" email="miriam@creative-tim.com" />,
+        function: <Job title="Programator" description="Developer" />,
+        status: (
+          <MDBox ml={-1}>
+            <MDBadge badgeContent="offline" color="dark" variant="gradient" size="sm" />
+          </MDBox>
+        ),
+        employed: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            14/09/20
+          </MDTypography>
+        ),
+        action: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            Edit
+          </MDTypography>
+        ),
+      },
+      {
+        author: <Author image={team4} name="Miriam Eric" email="miriam@creative-tim.com" />,
+        function: <Job title="Programator" description="Developer" />,
+        status: (
+          <MDBox ml={-1}>
+            <MDBadge badgeContent="offline" color="dark" variant="gradient" size="sm" />
+          </MDBox>
+        ),
+        employed: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            14/09/20
+          </MDTypography>
+        ),
+        action: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            Edit
+          </MDTypography>
+        ),
+      },
+      {
+        author: <Author image={team4} name="Miriam Eric" email="miriam@creative-tim.com" />,
+        function: <Job title="Programator" description="Developer" />,
+        status: (
+          <MDBox ml={-1}>
+            <MDBadge badgeContent="offline" color="dark" variant="gradient" size="sm" />
+          </MDBox>
+        ),
+        employed: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            14/09/20
+          </MDTypography>
+        ),
+        action: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            Edit
+          </MDTypography>
+        ),
+      },
+      {
+        author: <Author image={team4} name="Miriam Eric" email="miriam@creative-tim.com" />,
+        function: <Job title="Programator" description="Developer" />,
+        status: (
+          <MDBox ml={-1}>
+            <MDBadge badgeContent="offline" color="dark" variant="gradient" size="sm" />
+          </MDBox>
+        ),
+        employed: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            14/09/20
+          </MDTypography>
+        ),
+        action: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            Edit
+          </MDTypography>
+        ),
+      },
+      {
+        author: <Author image={team4} name="Miriam Eric" email="miriam@creative-tim.com" />,
+        function: <Job title="Programator" description="Developer" />,
+        status: (
+          <MDBox ml={-1}>
+            <MDBadge badgeContent="offline" color="dark" variant="gradient" size="sm" />
+          </MDBox>
+        ),
+        employed: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            14/09/20
+          </MDTypography>
+        ),
+        action: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            Edit
+          </MDTypography>
+        ),
+      },
+      {
+        author: <Author image={team4} name="Miriam Eric" email="miriam@creative-tim.com" />,
+        function: <Job title="Programator" description="Developer" />,
+        status: (
+          <MDBox ml={-1}>
+            <MDBadge badgeContent="offline" color="dark" variant="gradient" size="sm" />
+          </MDBox>
+        ),
+        employed: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            14/09/20
+          </MDTypography>
+        ),
+        action: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            Edit
+          </MDTypography>
+        ),
+      },
+      {
+        author: <Author image={team4} name="Miriam Eric" email="miriam@creative-tim.com" />,
+        function: <Job title="Programator" description="Developer" />,
+        status: (
+          <MDBox ml={-1}>
+            <MDBadge badgeContent="offline" color="dark" variant="gradient" size="sm" />
+          </MDBox>
+        ),
+        employed: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            14/09/20
           </MDTypography>
         ),
         action: (
