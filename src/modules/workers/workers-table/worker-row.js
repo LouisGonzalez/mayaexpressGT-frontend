@@ -1,21 +1,3 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/function-component-definition */
-/**
-=========================================================
-* Material Dashboard 2 React - v2.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDAvatar from "components/MDAvatar";
@@ -29,21 +11,23 @@ import { useState } from "react";
 import EditWorker from "./edit-worker";
 import { Grid, Icon } from "@mui/material";
 import DeleteWorker from "./delete-worker";
+import WorkerService from "services/worker/worker.service";
+import { useEffect } from "react";
+import WorkerActions from "./worker-actions";
 
 export default function WorkerRow() {
 
-  const [ openEdit, setOpenEdit ] = useState(false);
-  const [ openDelete, setOpenDelete ] = useState(false);
+  const [ workers, setWorkers ] = useState();
+  const [ rows, setRows ] = useState([]);
 
-  const handleEdit = () => {
-    setOpenEdit(!openEdit);
+  const workerService = new WorkerService();
+
+  async function getAllUsers(){
+    const users = await workerService.getAll();
+    setWorkers(users);
   }
 
-  const handleDelete = () => {
-    setOpenDelete(!openDelete);
-  }
-
-  const Author = ({ image, name, email }) => (
+  const WorkerName = ({ image, name, email }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
       <MDAvatar src={image} name={name} size="sm" />
       <MDBox ml={2} lineHeight={1}>
@@ -55,7 +39,7 @@ export default function WorkerRow() {
     </MDBox>
   );
 
-  const Job = ({ title, description }) => (
+  const Role = ({ title, description }) => (
     <MDBox lineHeight={1} textAlign="left">
       <MDTypography display="block" variant="caption" color="text" fontWeight="medium">
         {title}
@@ -63,6 +47,44 @@ export default function WorkerRow() {
       <MDTypography variant="caption">{description}</MDTypography>
     </MDBox>
   );
+
+
+  useEffect(() => {
+    getAllUsers();
+  }, [])
+  
+  useEffect(() => {
+    if(workers !== undefined){
+      console.log(workers)
+      const rowsTemp = [];
+      workers.content.forEach((worker) => {
+        const workerName = worker.name + " " + worker.lastName;
+        const workerEmail = worker.name+"."+worker.lastName+"@org.com"
+        rowsTemp.push({
+          name: <WorkerName image={team2} name={workerName} email={workerEmail} />,
+          role: <Role title={worker.role} description="Organization" />,
+          username: (
+            <MDBox ml={-1}>
+              <MDBadge badgeContent={worker.username} color="success" variant="gradient" size="sm" />
+            </MDBox>
+          ),
+          hoursperday: (
+            <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+              {worker.hoursPerDay}
+            </MDTypography>
+          ),
+          position: (
+            <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+              {worker.position}
+            </MDTypography>
+          ),
+          action: <WorkerActions worker={worker} />,
+        });
+      })
+      setRows(rowsTemp);
+
+    }
+  }, [workers])
 
   return {
     columns: [
@@ -74,40 +96,6 @@ export default function WorkerRow() {
       { Header: "Accion", accessor: "action", align: "center" },
     ],
 
-    rows: [
-      {
-        author: <Author image={team2} name="John Michael" email="john@creative-tim.com" />,
-        function: <Job title="Manager" description="Organization" />,
-        status: (
-          <MDBox ml={-1}>
-            <MDBadge badgeContent="online" color="success" variant="gradient" size="sm" />
-          </MDBox>
-        ),
-        employed: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            23/04/18
-          </MDTypography>
-        ),
-        action: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            <EditWorker handleEdit={handleEdit} openEdit={openEdit} />
-            <DeleteWorker handleDelete={handleDelete} openDelete={openDelete} />
-            <MDBox display="flex" justifyContent="center">
-              <MDBox sx={{ mx: 1 }}>
-                <MDButton variant="outlined" size="medium" color="black" onClick={handleEdit} fullWidth>
-                  <Icon>edit</Icon>
-                </MDButton>
-              </MDBox>
-              <MDBox>
-                <MDButton variant="outlined" size="medium" color="error" onClick={handleDelete} fullWidth>
-                  <Icon>delete</Icon>
-                </MDButton>
-              </MDBox>
-            </MDBox>
-          </MDTypography>
-        ),
-      },
-
-    ],
+    rows: rows
   };
 }

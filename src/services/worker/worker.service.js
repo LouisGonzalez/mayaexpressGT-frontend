@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const API_URL = process.env.API_URL;
-const WORKER_PATH = "worker";
+const API_URL = "http://localhost:3001/api";
+const WORKER_PATH = "employee";
 
 class WorkerService {
   getAll() {

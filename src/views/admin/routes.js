@@ -10,6 +10,8 @@ import SignUp from "layouts/authentication/sign-up";
 // @mui icons
 import Icon from "@mui/material/Icon";
 import { WorkersList } from "modules/workers/workers-table/workers-list";
+import { DestinationsList } from "modules/destinations/destinations-table/destinations-list";
+import { WarehouseList } from "modules/warehouse/warehouse-table/warehouse-list";
 
 const routes = [
   {
@@ -38,6 +40,14 @@ const routes = [
   },
   {
     type: "collapse",
+    name: "Bodegas",
+    key: "bodegas",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/bodegas",
+    component: <WarehouseList />,
+  },
+  {
+    type: "collapse",
     name: "Pagos",
     key: "pagos",
     icon: <Icon fontSize="small">receipt_long</Icon>,
@@ -56,9 +66,9 @@ const routes = [
     type: "collapse",
     name: "Departamentos",
     key: "departamentos",
-    icon: <Icon fontSize="small">notifications</Icon>,
+    icon: <Icon fontSize="small">table_view</Icon>,
     route: "/departamentos",
-    component: <Notifications />,
+    component: <DestinationsList />,
   },
   {
     type: "collapse",

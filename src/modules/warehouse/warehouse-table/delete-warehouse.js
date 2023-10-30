@@ -7,21 +7,20 @@ import ConfiguratorRoot from "examples/Configurator/ConfiguratorRoot";
 import { useMaterialUIController } from "context";
 import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
-import WorkerService from "services/worker/worker.service";
+import WarehouseService from "services/warehouse/warehouse.service";
 
-function DeleteWorker(props) {
-  const { worker } = props;
+function DeleteWarehouse(props) {
+  const { warehouse } = props;
   const [controller, dispatch] = useMaterialUIController();
   const { darkMode } = controller;
   const [disabled, setDisabled] = useState(false);
-  const workerService = new WorkerService();
+  const warehouseService = new WarehouseService();
 
-  const deleteWorker = async () => {
-    const del = await workerService.deleteWorker(worker.id);
+  const deleteWarehouse = async () => {
+    const del = await warehouseService.del(warehouse.id);
     console.log(del);
     handleCloseConfigurator();
   };
-
 
   useEffect(() => {
     function handleDisabled() {
@@ -73,12 +72,13 @@ function DeleteWorker(props) {
       <MDBox pt={0.5} pb={3} px={3}>
         <MDBox display="flex" justifyContent="center">
           <MDBox sx={{ mx: 1 }}>
-            <MDButton 
-              variant="outlined" 
-              size="medium" 
-              color="success" 
+            <MDButton
+              variant="outlined"
+              size="medium"
+              color="success"
               fullWidth
-              onClick={deleteWorker}>
+              onClick={deleteWarehouse}
+            >
               SI
             </MDButton>
           </MDBox>
@@ -99,4 +99,4 @@ function DeleteWorker(props) {
   );
 }
 
-export default DeleteWorker;
+export default DeleteWarehouse;
