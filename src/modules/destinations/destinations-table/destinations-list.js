@@ -1,19 +1,3 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// @mui material components
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 
@@ -28,10 +12,10 @@ import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
 
 // Data
-import authorsTableData from "ui-components/tables/data/authorsTableData";
+import DestinationRow from "modules/destinations/destinations-table/destination-row";
 
-function Tables(props) {
-  const { columns, rows } = authorsTableData();
+export function DestinationsList() {
+  const { columns, rows } = DestinationRow();
 
   return (
     <DashboardLayout>
@@ -51,7 +35,7 @@ function Tables(props) {
                 coloredShadow="info"
               >
                 <MDTypography variant="h6" color="white">
-                  {props.tableTitle}
+                  Listado de departamentos
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
@@ -71,5 +55,3 @@ function Tables(props) {
     </DashboardLayout>
   );
 }
-
-export default Tables;
