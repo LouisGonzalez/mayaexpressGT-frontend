@@ -12,6 +12,8 @@ import Icon from "@mui/material/Icon";
 import { WorkersList } from "modules/workers/workers-table/workers-list";
 import { DestinationsList } from "modules/destinations/destinations-table/destinations-list";
 import { WarehouseList } from "modules/warehouse/warehouse-table/warehouse-list";
+import { PriceList } from "modules/price/price-list";
+import Shipment from "modules/shiprment";
 
 const routes = [
   {
@@ -56,14 +58,22 @@ const routes = [
   },
   {
     type: "collapse",
+    name: "Envio",
+    key: "envio",
+    icon: <Icon fontSize="small">receipt_long</Icon>,
+    route: "/envio",
+    component: <Shipment />,
+  },
+  {
+    type: "collapse",
     name: "Tarifarios",
     key: "tarifarios",
     icon: <Icon fontSize="small">format_textdirection_r_to_l</Icon>,
     route: "/tarifarios",
-    component: <RTL />,
+    component: <PriceList />,
   },
   {
-    type: "collapse",
+    type: "collapse", 
     name: "Departamentos",
     key: "departamentos",
     icon: <Icon fontSize="small">table_view</Icon>,
