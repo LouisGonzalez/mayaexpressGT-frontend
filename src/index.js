@@ -13,7 +13,7 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import React from "react";
+import React, { useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "App";
@@ -23,6 +23,8 @@ import WorkerHomepage from "views/worker/worker-homepage";
 import Login from "modules/login/login";
 // Material Dashboard 2 React Context Provider
 import { MaterialUIControllerProvider } from "context";
+import { DataContextControllerProvider } from "data-context/data-context";
+import Init from "Init";
 
 const container = document.getElementById("app");
 const root = createRoot(container);
@@ -30,8 +32,14 @@ const root = createRoot(container);
 root.render(
   <BrowserRouter>
     <MaterialUIControllerProvider>
-      {/* <Login/> */}
-      <AdminHomepage />
+      <DataContextControllerProvider>
+        {/* <Login/> */}
+        {/* <AdminHomepage /> */}
+
+        <Init/> 
+
+        {/* <App/> */}
+      </DataContextControllerProvider>
     </MaterialUIControllerProvider>
   </BrowserRouter>
 );

@@ -4,52 +4,41 @@ import Icon from "@mui/material/Icon";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import ConfiguratorRoot from "examples/Configurator/ConfiguratorRoot";
-import {
-  useMaterialUIController,
-} from "context";
+import { useMaterialUIController } from "context";
 import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
 import WorkerService from "services/worker/worker.service";
+import BranchService from "services/branch/branch.service";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
-function EditWorker(props) {
-  const { worker } = props;
+function CreateBranch(props) {
+    /* general */
   const [controller, dispatch] = useMaterialUIController();
-  const {
-    darkMode,
-  } = controller;
+  const { darkMode } = controller;
   const [disabled, setDisabled] = useState(false);
 
-  const [ nameChange, setNameChange ] = useState(worker.name);
-  const [lastNameChange, setLastNameChange] = useState(worker.lastName);
-  const [usernameChange, setUsernameChange] = useState(worker.username);
-  const [hoursChange, setHoursChange] = useState(worker.hoursPerDay);
-  const workerService = new WorkerService();
+  /* specific */
+  const [addressChange, setAddressChange] = useState("");
+  const [vehicleDay, setVehicle] = useState("");
+  const [warehouseId, setWarehouseId] = useState("");
 
+  /* services */
+  const branchService = new BranchService();
 
-  const editWorker = async () => {
-    if(
-      nameChange !== "" &&
-      lastNameChange !== "" &&
-      usernameChange !== "" &&
-      hoursChange !== ""
-    ) {
-      const update = await workerService.updateWorker(
-        worker.id,
-        {
-          ...worker,
-          name: nameChange,
-          lastName: lastNameChange,
-          username: usernameChange,
-          hoursPerDay: hoursChange,
-        }
-      );
-      console.log(update)
-      handleCloseConfigurator()
+  const createBranch = async () => {
+    if (addressChange !== "" && vehicleDay !== "" && warehouseId !== "") {
+      const update = await branchService.create({
+        address: addressChange,
+        vehicleDay: vehicleDay,
+        warehouse: warehouseId
+      });
+      console.log(update);
+      handleCloseConfigurator();
     } else {
       //PONER AQUI UN NOTIFICATION DE LA PLANTILLA
-      console.log("Se tienen que llenar todos los campos")
+      console.log("Se tienen que llenar todos los campos");
     }
-  } 
+  };
 
   useEffect(() => {
     function handleDisabled() {
@@ -63,10 +52,10 @@ function EditWorker(props) {
     return () => window.removeEventListener("resize", handleDisabled);
   }, []);
 
-  const handleCloseConfigurator = () => props.handleEdit();
+  const handleCloseConfigurator = () => props.handleOpen();
 
   return (
-    <ConfiguratorRoot variant="permanent" ownerState={{ openConfigurator: props.openEdit }}>
+    <ConfiguratorRoot variant="permanent" ownerState={{ openConfigurator: props.open }}>
       <MDBox
         display="flex"
         justifyContent="space-between"
@@ -76,9 +65,8 @@ function EditWorker(props) {
         px={3}
       >
         <MDBox>
-          <MDTypography variant="h5">{worker.username}</MDTypography>
           <MDTypography variant="body2" color="text">
-            Modifica la informacion del usuario
+            Crea una nueva sucursal
           </MDTypography>
         </MDBox>
 
@@ -100,36 +88,50 @@ function EditWorker(props) {
 
       <MDBox pt={0.5} pb={3} px={3}>
         <MDBox>
-          <MDInput 
-            variant="outlined" 
-            label={worker.name} 
-            size="small" 
-            fullWidth 
-            onChange={ (e) => setNameChange(e.target.value) }/>
-        </MDBox>
-        <MDBox mt={3} lineHeight={1}>
-          <MDInput 
-            variant="outlined" 
-            label={worker.lastName} 
-            size="small" 
+          <MDInput
+            variant="outlined"
+            label="Direccion"
+            size="small"
             fullWidth
-            onChange={ (e) => setLastNameChange(e.target.value) }/>
+            onChange={(e) => setAddressChange(e.target.value)}
+          />
         </MDBox>
-        <MDBox mt={3} lineHeight={1}>
-          <MDInput 
-            variant="outlined" 
-            label={worker.username} 
-            size="small" 
+
+        <MDBox mt={3}>
+          <FormControl
+            sx={{
+              "& .MuiInputBase-root": {
+                height: 40,
+              },
+            }}
             fullWidth
-            onChange={ (e) => setUsernameChange(e.target.value) }/>
+          >
+            <InputLabel id="label-bodegas-activas">No. Bodega</InputLabel>
+            <Select
+              labelId="label-bodegas-activas"
+              id="select-bodegas-activas"
+              label="Bodegas"
+              // value={branchSelected}
+              // onChange={handleBranchSelect}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {/* {branches.content.map((branch) => (
+                <MenuItem value={branch.id}>{branch.address}</MenuItem>
+              ))} */}
+            </Select>
+          </FormControl>
         </MDBox>
+
         <MDBox mt={3} lineHeight={1}>
-          <MDInput 
-            variant="outlined" 
-            label={"Horas por dia: "+worker.hoursPerDay} 
-            size="small" 
+          <MDInput
+            variant="outlined"
+            label="Dia vehiculo"
+            size="small"
             fullWidth
-            onChange={ (e) => setHoursChange(e.target.value) }/>
+            onChange={(e) => setVehicle(e.target.value)}
+          />
         </MDBox>
       </MDBox>
       <Divider />
@@ -137,12 +139,13 @@ function EditWorker(props) {
       <MDBox pt={0.5} pb={3} px={3}>
         <MDBox display="flex" justifyContent="center">
           <MDBox sx={{ mx: 1 }}>
-            <MDButton 
-              variant="outlined" 
-              size="medium" 
-              color="success" 
+            <MDButton
+              variant="outlined"
+              size="medium"
+              color="success"
               fullWidth
-              onClick={editWorker}>
+              onClick={createBranch}
+            >
               Guardar cambios
             </MDButton>
           </MDBox>
@@ -163,4 +166,4 @@ function EditWorker(props) {
   );
 }
 
-export default EditWorker;
+export default CreateBranch;

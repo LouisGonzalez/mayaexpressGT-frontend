@@ -12,6 +12,9 @@ import Icon from "@mui/material/Icon";
 import { WorkersList } from "modules/workers/workers-table/workers-list";
 import { DestinationsList } from "modules/destinations/destinations-table/destinations-list";
 import { WarehouseList } from "modules/warehouse/warehouse-table/warehouse-list";
+import { BranchList } from "modules/branch/branch-table/branch-list";
+import { VehicleList } from "modules/vehicle/vehicle-table/vehicle-list";
+import MDButton from "components/MDButton";
 
 const routes = [
   {
@@ -26,23 +29,47 @@ const routes = [
     type: "collapse",
     name: "Empleados",
     key: "empleados",
-    icon: <Icon fontSize="small">table_view</Icon>,
+    icon: (
+      <Icon fontSize="small">
+        <span class="material-symbols-outlined">person</span>
+      </Icon>
+    ),
     route: "/empleados",
     component: <WorkersList />,
   },
   {
     type: "collapse",
+    name: "Vehiculos",
+    key: "vehiculos",
+    icon: (
+      <Icon fontSize="small">
+        <span class="material-symbols-outlined">directions_car</span>
+      </Icon>
+    ),
+    route: "/vehiculos",
+    component: <VehicleList/>,
+  },
+  {
+    type: "collapse",
     name: "Sucursales",
     key: "sucursales",
-    icon: <Icon fontSize="small">table_view</Icon>,
+    icon: (
+      <Icon fontSize="small">
+        <span class="material-symbols-outlined">store</span>
+      </Icon>
+    ),
     route: "/sucursales",
-    component: <Tables />,
+    component: <BranchList />,
   },
   {
     type: "collapse",
     name: "Bodegas",
     key: "bodegas",
-    icon: <Icon fontSize="small">table_view</Icon>,
+    icon: (
+      <Icon fontSize="small">
+        <span class="material-symbols-outlined">warehouse</span>
+      </Icon>
+    ),
     route: "/bodegas",
     component: <WarehouseList />,
   },
@@ -66,7 +93,11 @@ const routes = [
     type: "collapse",
     name: "Departamentos",
     key: "departamentos",
-    icon: <Icon fontSize="small">table_view</Icon>,
+    icon: (
+      <Icon fontSize="small">
+        <span class="material-symbols-outlined">pin_drop</span>
+      </Icon>
+    ),
     route: "/departamentos",
     component: <DestinationsList />,
   },
@@ -77,14 +108,6 @@ const routes = [
     icon: <Icon fontSize="small">person</Icon>,
     route: "/reportes",
     component: <Profile />,
-  },
-  {
-    type: "collapse",
-    name: "Sign Up",
-    key: "sign-up",
-    icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/authentication/sign-up",
-    component: <SignUp />,
   },
 ];
 

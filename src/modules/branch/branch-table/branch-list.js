@@ -10,28 +10,28 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
-
-// Data
-import WorkerRow from "modules/workers/workers-table/worker-row";
+import BranchRow from "./branch-row";
 import MDButton from "components/MDButton";
 import { useState } from "react";
-import CreateWorker from "./new-worker";
+import CreateBranch from "./new-branch";
 
-export function WorkersList() {
-  const { columns, rows } = WorkerRow();
-  const [ openNewWorker, setOpenNewWorker ] = useState(false);
 
-  const handleOpenNewWorker = () => {
-    setOpenNewWorker(!openNewWorker);
+
+export function BranchList() {
+  const { columns, rows } = BranchRow();
+  const [openNewBranch, setOpenNewBranch] = useState(false);
+
+  const handleOpenNewBranch = () => {
+    setOpenNewBranch(!openNewBranch);
   }
 
   return (
     <DashboardLayout>
       <DashboardNavbar />
       <MDBox borderRadius="lg" opacity={1} p={2}>
-        <MDButton onClick={handleOpenNewWorker}>Nuevo empleado</MDButton>
+        <MDButton onClick={handleOpenNewBranch}>Nueva sucursal</MDButton>
       </MDBox>
-      <CreateWorker open={openNewWorker} handleOpen={handleOpenNewWorker} />
+      <CreateBranch open={openNewBranch} handleOpen={handleOpenNewBranch}/>
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
@@ -47,7 +47,7 @@ export function WorkersList() {
                 coloredShadow="info"
               >
                 <MDTypography variant="h6" color="white">
-                  Listado de empleados
+                  Listado de sucursales
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>

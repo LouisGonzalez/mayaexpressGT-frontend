@@ -44,6 +44,7 @@ import {
   navbarIconButton,
   navbarMobileMenu,
 } from "examples/Navbars/DashboardNavbar/styles";
+import { useDataContextController } from "data-context/data-context";
 
 // Material Dashboard 2 React context
 import {
@@ -52,13 +53,20 @@ import {
   setMiniSidenav,
   setOpenConfigurator,
 } from "context";
+import MDButton from "components/MDButton";
+import { setAuthToken } from "data-context/data-context";
 
 function DashboardNavbar({ absolute, light, isMini }) {
   const [navbarType, setNavbarType] = useState();
   const [controller, dispatch] = useMaterialUIController();
+  const [ generalController, generalDispatch ] = useDataContextController();
   const { miniSidenav, transparentNavbar, fixedNavbar, openConfigurator, darkMode } = controller;
   const [openMenu, setOpenMenu] = useState(false);
   const route = useLocation().pathname.split("/").slice(1);
+
+  const logOut = () => {
+    setAuthToken(generalDispatch, "");
+  }
 
   useEffect(() => {
     // Setting the navbar type
@@ -104,9 +112,16 @@ function DashboardNavbar({ absolute, light, isMini }) {
       onClose={handleCloseMenu}
       sx={{ mt: 2 }}
     >
-      <NotificationItem icon={<Icon>email</Icon>} title="Check new messages" />
-      <NotificationItem icon={<Icon>podcasts</Icon>} title="Manage Podcast sessions" />
-      <NotificationItem icon={<Icon>shopping_cart</Icon>} title="Payment successfully completed" />
+      <NotificationItem
+        icon={
+          <MDButton onClick={logOut}>
+            <Icon>
+              <span class="material-symbols-outlined">logout</span>
+            </Icon>
+          </MDButton>
+        }
+        title="Log out"
+      />
     </Menu>
   );
 

@@ -1,38 +1,30 @@
 import axios from "axios";
 
-const API_URL = process.env.API_URL;
+const API_URL = "http://localhost:3001/api";
+const WORKER_PATH = "auth";
 
 class AuthService {
 
     login(username, password){
         return axios
-            .post(`${API_URL}/signin`, {
+            .post(`${API_URL}/${WORKER_PATH}/sign-in`, {
                 username,
                 password
             })
-            .then(response => {
-                if(response.data.accessToken) {
-                    localStorage.setItem("user", JSON.stringify(response.data));
-                }
-                return response.data;
-            })
+            .then(response => (
+                response.data           
+            ))
     }
 
     logout(){
         localStorage.removeItem("user");
+        //Aqui hay que quitar el token del context
     }
 
-    register(username, email, password) {
-        return axios.post`${API_URL}/register`, {
-            username,
-            email,
-            password
-        })
-    }
 
     getCurrentUser() {
         return JSON.parse(localStorage.getItem('user'));
     }
 }
 
-export default new AuthService();
+export default AuthService;

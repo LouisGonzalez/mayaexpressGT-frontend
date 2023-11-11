@@ -25,14 +25,29 @@ import BasicLayout from "layouts/authentication/components/BasicLayout";
 
 // Images
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
+import LoginLayout from "./login-layout";
+import AuthService from "services/authorization/auth.service";
+import { useDataContextController } from "data-context/data-context";
+import { setAuthToken } from "data-context/data-context";
 
 function Login() {
-  const [rememberMe, setRememberMe] = useState(false);
 
-  const handleSetRememberMe = () => setRememberMe(!rememberMe);
+  const [ username, setUsername ] = useState("");
+  const [ password, setPassword ] = useState("");
+  const authService = new AuthService();
+  const [ generalController, generalDispatch ] = useDataContextController();
+
+  const {
+    authToken
+  } = generalController;
+
+  const signIn = async () => {
+    const data = await authService.login(username, password);
+    setAuthToken(generalDispatch, data.accessToken);
+  }
 
   return (
-    <BasicLayout image={bgImage}>
+    <LoginLayout image={bgImage}>
       <Card>
         <MDBox
           variant="gradient"
@@ -46,16 +61,26 @@ function Login() {
           textAlign="center"
         >
           <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
-            Sign in
+            MayaExpress-GT
           </MDTypography>
           <Grid container spacing={3} justifyContent="center" sx={{ mt: 1, mb: 2 }}>
             <Grid item xs={2}>
-              <MDTypography component={MuiLink} href="#" variant="body1" color="white">
+              <MDTypography
+                component={MuiLink}
+                href="https://www.facebook.com/brgg13"
+                variant="body1"
+                color="white"
+              >
                 <FacebookIcon color="inherit" />
               </MDTypography>
             </Grid>
             <Grid item xs={2}>
-              <MDTypography component={MuiLink} href="#" variant="body1" color="white">
+              <MDTypography
+                component={MuiLink}
+                href="https://github.com/LouisGonzalez/mayaexpressGT-frontend"
+                variant="body1"
+                color="white"
+              >
                 <GitHubIcon color="inherit" />
               </MDTypography>
             </Grid>
@@ -69,47 +94,20 @@ function Login() {
         <MDBox pt={4} pb={3} px={3}>
           <MDBox component="form" role="form">
             <MDBox mb={2}>
-              <MDInput type="email" label="Email" fullWidth />
+              <MDInput type="text" label="Username" fullWidth onChange={(e) => setUsername(e.target.value)}/>
             </MDBox>
             <MDBox mb={2}>
-              <MDInput type="password" label="Password" fullWidth />
-            </MDBox>
-            <MDBox display="flex" alignItems="center" ml={-1}>
-              <Switch checked={rememberMe} onChange={handleSetRememberMe} />
-              <MDTypography
-                variant="button"
-                fontWeight="regular"
-                color="text"
-                onClick={handleSetRememberMe}
-                sx={{ cursor: "pointer", userSelect: "none", ml: -1 }}
-              >
-                &nbsp;&nbsp;Remember me
-              </MDTypography>
+              <MDInput type="password" label="Password" fullWidth onChange={(e) => setPassword(e.target.value)} />
             </MDBox>
             <MDBox mt={4} mb={1}>
-              <MDButton variant="gradient" color="info" fullWidth>
+              <MDButton variant="gradient" color="info" fullWidth onClick={signIn}>
                 sign in
               </MDButton>
-            </MDBox>
-            <MDBox mt={3} mb={1} textAlign="center">
-              <MDTypography variant="button" color="text">
-                Don&apos;t have an account?{" "}
-                <MDTypography
-                  component={Link}
-                  to="/authentication/sign-up"
-                  variant="button"
-                  color="info"
-                  fontWeight="medium"
-                  textGradient
-                >
-                  Sign up
-                </MDTypography>
-              </MDTypography>
             </MDBox>
           </MDBox>
         </MDBox>
       </Card>
-    </BasicLayout>
+    </LoginLayout>
   );
 }
 

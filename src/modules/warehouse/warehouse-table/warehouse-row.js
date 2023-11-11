@@ -11,8 +11,14 @@ import { useState } from "react";
 import WarehouseService from "services/warehouse/warehouse.service";
 import { useEffect } from "react";
 import WarehouseActions from "./warehouse-actions"
+import { useMaterialUIController } from "context";
 
 export default function WarehouseRow() {
+
+  const [controller, dispatch] = useMaterialUIController();
+  const { darkMode } = controller;
+  const [disabled, setDisabled] = useState(false);
+
   const [warehouses, setWarehouses] = useState();
   const [rows, setRows] = useState([]);
 

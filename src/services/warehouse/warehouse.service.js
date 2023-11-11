@@ -3,7 +3,7 @@ import axios from "axios";
 const API_URL = "http://localhost:3001/api";
 const WORKER_PATH = "warehouse";
 
-class WorkerService {
+class WarehouseService {
   getAll() {
     return axios.get(`${API_URL}/${WORKER_PATH}`).then((response) => {
       if (response.data) return response.data;
@@ -43,6 +43,16 @@ class WorkerService {
       return response.data;
     });
   }
+
+  packagesByWarehouse(idWarehouse) {
+    return axios.get(`${API_URL}/${WORKER_PATH}/${idWarehouse}/get-packages`).then((response) => {
+      return response.data;
+    });
+  }
+
+  addPackage(body) {}
+
+  removePackage(idPackage, idWarehouse) {}
 }
 
-export default WorkerService;
+export default WarehouseService;

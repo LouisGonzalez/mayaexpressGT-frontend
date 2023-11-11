@@ -1,3 +1,6 @@
+import { useState } from "react";
+import PackageByBranchRow from "./packages-by-warehouse-row";
+import { useMaterialUIController } from "context";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 
@@ -10,28 +13,35 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
-
-// Data
-import WorkerRow from "modules/workers/workers-table/worker-row";
 import MDButton from "components/MDButton";
-import { useState } from "react";
-import CreateWorker from "./new-worker";
+import PackageByWarehouseRow from "./packages-by-warehouse-row";
+import { useParams, useSearchParams } from "react-router-dom";
 
-export function WorkersList() {
-  const { columns, rows } = WorkerRow();
-  const [ openNewWorker, setOpenNewWorker ] = useState(false);
 
-  const handleOpenNewWorker = () => {
-    setOpenNewWorker(!openNewWorker);
-  }
+function PackagesByWarehouse() {
+  /* general */
+  const [controller, dispatch] = useMaterialUIController();
+  const { darkMode } = controller;
+  const [disabled, setDisabled] = useState(false);
+
+  /* specific */
+  const { warehouseId }= useParams();
+ 
+  console.log(warehouseId)
+  const { columns, rows } = PackageByWarehouseRow(warehouseId);
+  const [openNewPackage, setOpenNewPackage] = useState(false);
+
+  const handleOpenNewPackage = () => {
+    setOpenNewPackage(!openNewPackage);
+  };
 
   return (
     <DashboardLayout>
       <DashboardNavbar />
       <MDBox borderRadius="lg" opacity={1} p={2}>
-        <MDButton onClick={handleOpenNewWorker}>Nuevo empleado</MDButton>
+        <MDButton onClick={handleOpenNewPackage}>Registrar guia</MDButton>
       </MDBox>
-      <CreateWorker open={openNewWorker} handleOpen={handleOpenNewWorker} />
+      {/* <CreateBranch open={openNewPackage} handleOpen={handleOpenNewPackage} /> */}
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
@@ -47,7 +57,7 @@ export function WorkersList() {
                 coloredShadow="info"
               >
                 <MDTypography variant="h6" color="white">
-                  Listado de empleados
+                  Listado de guias en bodega
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
@@ -67,3 +77,5 @@ export function WorkersList() {
     </DashboardLayout>
   );
 }
+
+export default PackagesByWarehouse;

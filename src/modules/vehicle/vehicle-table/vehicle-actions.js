@@ -1,27 +1,20 @@
+
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
-import MDAvatar from "components/MDAvatar";
-import MDBadge from "components/MDBadge";
-
-// Images
-import team2 from "assets/images/default-user-2.png";
 
 import MDButton from "components/MDButton";
 import { useState } from "react";
 import { Grid, Icon } from "@mui/material";
-import DeleteWarehouse from "./delete-warehouse";
-import EditWarehouse from "./edit-warehouse";
-import { useMaterialUIController } from "context";
-import { Link } from "react-router-dom";
+import EditVehicule from "./edit-vehicle";
+import DeleteVehicule from "./delete-vehicle";
+import EditVehicle from "./edit-vehicle";
+import DeleteVehicle from "./delete-vehicle";
+import VehicleToBranch from "./vehicle-to-branch";
 
-export default function WarehouseActions({ warehouse }) {
-
-  const [controller, dispatch] = useMaterialUIController();
-  const { darkMode } = controller;
-  const [disabled, setDisabled] = useState(false);
-
+export default function VehicleActions({ vehicle }) {
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
+  const [openOp1, setOpenOp1] = useState(false);
 
   const handleEdit = () => {
     setOpenEdit(!openEdit);
@@ -31,21 +24,28 @@ export default function WarehouseActions({ warehouse }) {
     setOpenDelete(!openDelete);
   };
 
+  const handleVehicleBranch = () => {
+    setOpenOp1(!openOp1);
+  }
+
   return (
     <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-      <EditWarehouse handleEdit={handleEdit} openEdit={openEdit} warehouse={warehouse} />
-      <DeleteWarehouse handleDelete={handleDelete} openDelete={openDelete} warehouse={warehouse} />
+      <EditVehicle handleEdit={handleEdit} openEdit={openEdit} vehicle={vehicle} />
+      <DeleteVehicle handleDelete={handleDelete} openDelete={openDelete} vehicle={vehicle} />
+      <VehicleToBranch handleEdit={handleVehicleBranch} openEdit={openOp1} vehicle={vehicle} />
       <MDBox display="flex" justifyContent="center">
         <MDBox>
-           <Link to={{ pathname: `/paquetes-bodega/${warehouse.id}`, state: { warehouse } }} >
-
-          <MDButton variant="outlined" size="medium" color="success" fullWidth>
+          <MDButton
+            variant="outlined"
+            size="medium"
+            color="success"
+            onClick={handleVehicleBranch}
+            fullWidth
+          >
             <Icon>
-              <span class="material-symbols-outlined">local_shipping</span>
+              <span class="material-symbols-outlined">add</span>
             </Icon>
-           
           </MDButton>
-           </Link>
         </MDBox>
         <MDBox sx={{ mx: 1 }}>
           <MDButton variant="outlined" size="medium" color="black" onClick={handleEdit} fullWidth>

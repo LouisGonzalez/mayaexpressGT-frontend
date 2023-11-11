@@ -52,6 +52,7 @@ import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "co
 // Images
 import brandWhite from "assets/images/logo-ct.png";
 import brandDark from "assets/images/logo-ct-dark.png";
+import PackagesByWarehouse from "modules/warehouse/packages-by-warehouse/packages-by-warehouse-list";
 
 export default function AdminHomepage() {
   const [controller, dispatch] = useMaterialUIController();
@@ -168,6 +169,12 @@ export default function AdminHomepage() {
         <Routes>
           {getRoutes(routes)}
           <Route path="*" element={<Navigate to="/dashboard" />} />
+          <Route
+            exact
+            path="/paquetes-bodega/:warehouseId"
+            element={<PackagesByWarehouse />}
+            key="paquetes-bodega"
+          />
         </Routes>
       </ThemeProvider>
     </CacheProvider>
@@ -192,6 +199,12 @@ export default function AdminHomepage() {
       <Routes>
         {getRoutes(routes)}
         <Route path="*" element={<Navigate to="/dashboard" />} />
+        <Route
+          exact
+          path="/paquetes-bodega/:warehouseId"
+          element={<PackagesByWarehouse />}
+          key="paquetes-bodega"
+        />
       </Routes>
     </ThemeProvider>
   );

@@ -1,27 +1,21 @@
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
-import MDAvatar from "components/MDAvatar";
-import MDBadge from "components/MDBadge";
-
-// Images
-import team2 from "assets/images/default-user-2.png";
 
 import MDButton from "components/MDButton";
 import { useState } from "react";
 import { Grid, Icon } from "@mui/material";
-import DeleteWarehouse from "./delete-warehouse";
-import EditWarehouse from "./edit-warehouse";
-import { useMaterialUIController } from "context";
-import { Link } from "react-router-dom";
+import EditBranch from "./edit-branch";
+import DeleteBranch from "./delete-branch";
+import NewSpentBranch from "./new-spent-branch";
 
-export default function WarehouseActions({ warehouse }) {
-
-  const [controller, dispatch] = useMaterialUIController();
-  const { darkMode } = controller;
-  const [disabled, setDisabled] = useState(false);
-
+export default function BranchActions({ branch }) {
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
+  const [openSpent, setOpenSpent] = useState(false);
+
+  const handleSpent = () => {
+    setOpenSpent(!openSpent)
+  }
 
   const handleEdit = () => {
     setOpenEdit(!openEdit);
@@ -33,19 +27,22 @@ export default function WarehouseActions({ warehouse }) {
 
   return (
     <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-      <EditWarehouse handleEdit={handleEdit} openEdit={openEdit} warehouse={warehouse} />
-      <DeleteWarehouse handleDelete={handleDelete} openDelete={openDelete} warehouse={warehouse} />
+      <EditBranch handleEdit={handleEdit} openEdit={openEdit} branch={branch} />
+      <DeleteBranch handleDelete={handleDelete} openDelete={openDelete} branch={branch} />
+      <NewSpentBranch handleOpen={handleSpent} open={openSpent} branch={branch}/>
       <MDBox display="flex" justifyContent="center">
         <MDBox>
-           <Link to={{ pathname: `/paquetes-bodega/${warehouse.id}`, state: { warehouse } }} >
-
-          <MDButton variant="outlined" size="medium" color="success" fullWidth>
+          <MDButton
+            variant="outlined"
+            size="medium"
+            color="black"
+            onClick={handleSpent}
+            fullWidth
+          >
             <Icon>
-              <span class="material-symbols-outlined">local_shipping</span>
+              <span class="material-symbols-outlined">money_off</span>
             </Icon>
-           
           </MDButton>
-           </Link>
         </MDBox>
         <MDBox sx={{ mx: 1 }}>
           <MDButton variant="outlined" size="medium" color="black" onClick={handleEdit} fullWidth>

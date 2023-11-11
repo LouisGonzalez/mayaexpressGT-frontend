@@ -13,13 +13,30 @@ import DataTable from "examples/Tables/DataTable";
 
 // Data
 import WarehouseRow from "modules/warehouse/warehouse-table/warehouse-row";
+import MDButton from "components/MDButton";
+import { useState } from "react";
+import CreateWarehouse from "./new-warehouse";
+import { useMaterialUIController } from "context";
 
 export function WarehouseList() {
+  const [controller, dispatch] = useMaterialUIController();
+  const { darkMode } = controller;
+  const [disabled, setDisabled] = useState(false);
+
   const { columns, rows } = WarehouseRow();
+  const [openNewWarehouse, setOpenNewWarehouse] = useState(false);
+
+  const handleNewWarehouse = () => {
+    setOpenNewWarehouse(!openNewWarehouse)
+  }
 
   return (
     <DashboardLayout>
       <DashboardNavbar />
+      <MDBox borderRadius="lg" opacity={1} p={2}>
+        <MDButton onClick={handleNewWarehouse}>Nueva bodega</MDButton>
+      </MDBox>
+      <CreateWarehouse open={openNewWarehouse} handleOpen={handleNewWarehouse} />
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
