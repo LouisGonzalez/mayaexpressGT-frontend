@@ -26,22 +26,11 @@ function PackagesByWarehouse() {
 
   /* specific */
   const { warehouseId }= useParams();
- 
-  console.log(warehouseId)
-  const { columns, rows } = PackageByWarehouseRow(warehouseId);
-  const [openNewPackage, setOpenNewPackage] = useState(false);
-
-  const handleOpenNewPackage = () => {
-    setOpenNewPackage(!openNewPackage);
-  };
+   const { columns, rows } = PackageByWarehouseRow({warehouseId});
 
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      <MDBox borderRadius="lg" opacity={1} p={2}>
-        <MDButton onClick={handleOpenNewPackage}>Registrar guia</MDButton>
-      </MDBox>
-      {/* <CreateBranch open={openNewPackage} handleOpen={handleOpenNewPackage} /> */}
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
@@ -57,7 +46,7 @@ function PackagesByWarehouse() {
                 coloredShadow="info"
               >
                 <MDTypography variant="h6" color="white">
-                  Listado de guias en bodega
+                  Listado de viajes en bodega
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>

@@ -26,6 +26,7 @@ export default function DestinationRow() {
   async function getAllDestinations() {
     const destinations = await destinationsService.getAll();
     setDestinations(destinations);
+    console.log(destinations)
   }
 
   const DestinationName = ({ image, name }) => (
@@ -56,7 +57,7 @@ export default function DestinationRow() {
     if (destinations !== undefined) {
       console.log(destinations);
       const rowsTemp = [];
-      destinations.content.forEach((destination) => {
+      destinations.forEach((destination) => {
         rowsTemp.push({
           name: <DestinationName image={guatemala} name={destination.name} />,
           region: <Region title={destination.region} description="Organization" />,

@@ -8,6 +8,9 @@ import { useMaterialUIController } from "context";
 import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
 import WorkerService from "services/worker/worker.service";
+import MDSnackbar from "components/MDSnackbar";
+import { setRefresh } from "data-context/data-context";
+import { useDataContextController } from "data-context/data-context";
 
 function CreateWorker(props) {
   const [controller, dispatch] = useMaterialUIController();
@@ -18,22 +21,52 @@ function CreateWorker(props) {
   const [lastNameChange, setLastNameChange] = useState("");
   const [usernameChange, setUsernameChange] = useState("");
   const [hoursChange, setHoursChange] = useState("");
+  const [password, setPassword] = useState("");
   const workerService = new WorkerService();
+
+  /* context */
+  const [generalController, generalDispatch] = useDataContextController();
+  const { refresh } = generalController;
+  
+  /* notifications */
+  const [show, setShow] = useState(false);
+  const [generalMessage, setGeneralMessage] = useState("");
+  const toggleSnackbar = () => setShow(!show);
+
+  const initialValues = {
+    nameChange: "",
+    lastNameChange: "",
+    usernameChange: "",
+    hoursChange: "",
+    password: ""
+  };
+
+  const setInitialValues = () => {
+    setNameChange(initialValues.nameChange);
+    setLastNameChange(initialValues.lastNameChange);
+    setUsernameChange(initialValues.usernameChange);
+    setHoursChange(initialValues.hoursChange);
+    setPassword(initialValues.password);
+  };
 
   const createWorker = async () => {
     if (nameChange !== "" && lastNameChange !== "" && usernameChange !== "" && hoursChange !== "") {
-      const update = await workerService.createWorker({
-        ...worker,
+      await workerService.createWorker({
         name: nameChange,
         lastName: lastNameChange,
         username: usernameChange,
         hoursPerDay: hoursChange,
+        password: password,
+        role: "EMPLOYEE",
+        isEnable: true
       });
-      console.log(update);
+      setRefresh(generalDispatch, !refresh);
+      setGeneralMessage("Empleado creado con exito");
+      toggleSnackbar();
       handleCloseConfigurator();
     } else {
-      //PONER AQUI UN NOTIFICATION DE LA PLANTILLA
-      console.log("Se tienen que llenar todos los campos");
+      setGeneralMessage("Se tienen que llenar todos los campos");
+      toggleSnackbar();
     }
   };
 
@@ -49,10 +82,21 @@ function CreateWorker(props) {
     return () => window.removeEventListener("resize", handleDisabled);
   }, []);
 
-  const handleCloseConfigurator = () => props.handleOpen();
-
+  const handleCloseConfigurator = () => {
+    setInitialValues();
+    props.handleOpen();
+  };
   return (
     <ConfiguratorRoot variant="permanent" ownerState={{ openConfigurator: props.open }}>
+      <MDSnackbar
+        color="info"
+        icon="notifications"
+        title="Notificacion"
+        content={generalMessage}
+        dateTime="Recientemente"
+        open={show}
+        close={toggleSnackbar}
+      />
       <MDBox
         display="flex"
         justifyContent="space-between"
@@ -90,6 +134,7 @@ function CreateWorker(props) {
             label="nombres"
             size="small"
             fullWidth
+            value={nameChange}
             onChange={(e) => setNameChange(e.target.value)}
           />
         </MDBox>
@@ -99,6 +144,7 @@ function CreateWorker(props) {
             label="apellidos"
             size="small"
             fullWidth
+            value={lastNameChange}
             onChange={(e) => setLastNameChange(e.target.value)}
           />
         </MDBox>
@@ -108,6 +154,7 @@ function CreateWorker(props) {
             label="username"
             size="small"
             fullWidth
+            value={usernameChange}
             onChange={(e) => setUsernameChange(e.target.value)}
           />
         </MDBox>
@@ -117,7 +164,20 @@ function CreateWorker(props) {
             label={"Horas por dia"}
             size="small"
             fullWidth
+            type="number"
+            value={hoursChange}
             onChange={(e) => setHoursChange(e.target.value)}
+          />
+        </MDBox>
+        <MDBox mt={3} lineHeight={1}>
+          <MDInput
+            variant="outlined"
+            label={"password"}
+            size="small"
+            type="password"
+            fullWidth
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </MDBox>
       </MDBox>

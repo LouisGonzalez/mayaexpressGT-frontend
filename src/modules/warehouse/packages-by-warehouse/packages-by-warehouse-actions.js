@@ -1,31 +1,48 @@
 import { Icon } from "@mui/material";
 import MDButton from "components/MDButton";
 import MDTypography from "components/MDTypography";
-import { useState } from "react";
-import RemovePackageWarehouse from "./remove-package-warehouse";
 import MDBox from "components/MDBox";
+import TripDeparture from "./trip-departure";
+import { useState } from "react";
+import TripEntrance from "./trip-entrance";
 
-function PackagesByWarehouseActions({pack, idWarehouse}) {
-  const [openEditor, setOpenEditor] = useState(false);
+function PackagesByWarehouseActions({trip, idWarehouse}) {
+  const [openDeparture, setOpenDeparture] = useState(false);
+  const [openEntrance, setOpenEntrance] = useState(false);
 
-  const handleEditor = () => {
-    setOpenEditor(!openEditor);
-  };
+  const handleOpenDeparture = () => {
+    setOpenDeparture(!openDeparture);
+  }
 
+  const handleOpenEntrance = () => {
+    setOpenEntrance(!openEntrance);
+  }
 
   return (
     <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-      {/* <EditBranch handleEdit={handleEdit} openEdit={openEdit} branch={branch} /> */}
-      <RemovePackageWarehouse pack={pack} idWarehouse={idWarehouse} handleOpen={handleEditor} open={openEditor} />
-      <MDBox display="flex" justifyContent="center">
-        <MDBox>
-          <MDButton variant="outlined" size="medium" color="error" onClick={handleEditor} fullWidth>
-            <Icon>
-              <span class="material-symbols-outlined">local_shipping</span>
-            </Icon>
-          </MDButton>
+      <TripDeparture open={openDeparture} handleOpen={handleOpenDeparture} trip={trip} idWarehouse={idWarehouse}/>
+      <TripEntrance open={openEntrance} handleOpen={handleOpenEntrance} trip={trip} idWarehouse={idWarehouse}/>
+      {trip.isDeparture === true ? (
+        <MDBox display="flex" justifyContent="center">
+          <MDBox>
+            <MDButton variant="outlined" size="medium" color="success" fullWidth onClick={handleOpenDeparture}>
+              <Icon>
+                <span class="material-symbols-outlined">swipe_up</span>
+              </Icon>
+            </MDButton>
+          </MDBox>
         </MDBox>
-      </MDBox>
+      ) : (
+        <MDBox display="flex" justifyContent="center">
+          <MDBox>
+            <MDButton variant="outlined" size="medium" color="info" fullWidth onClick={handleOpenEntrance}>
+              <Icon>
+                <span class="material-symbols-outlined">swipe_down</span>
+              </Icon>
+            </MDButton>
+          </MDBox>
+        </MDBox>
+      )}
     </MDTypography>
   );    
 }

@@ -37,15 +37,22 @@ export default function WarehouseActions({ warehouse }) {
       <DeleteWarehouse handleDelete={handleDelete} openDelete={openDelete} warehouse={warehouse} />
       <MDBox display="flex" justifyContent="center">
         <MDBox>
-           <Link to={{ pathname: `/paquetes-bodega/${warehouse.id}`, state: { warehouse } }} >
-
-          <MDButton variant="outlined" size="medium" color="success" fullWidth>
-            <Icon>
-              <span class="material-symbols-outlined">local_shipping</span>
-            </Icon>
-           
-          </MDButton>
-           </Link>
+          <Link to={{ pathname: `/paquetes-entrega/${warehouse.id}`, state: { warehouse } }}>
+            <MDButton variant="outlined" size="medium" color="success" fullWidth>
+              <Icon>
+                <span class="material-symbols-outlined">done</span>
+              </Icon>
+            </MDButton>
+          </Link>
+        </MDBox>
+        <MDBox sx={{ mx: 1 }}>
+          <Link to={{ pathname: `/paquetes-bodega/${warehouse.id}`, state: { warehouse } }}>
+            <MDButton variant="outlined" size="medium" color="success" fullWidth>
+              <Icon>
+                <span class="material-symbols-outlined">local_shipping</span>
+              </Icon>
+            </MDButton>
+          </Link>
         </MDBox>
         <MDBox sx={{ mx: 1 }}>
           <MDButton variant="outlined" size="medium" color="black" onClick={handleEdit} fullWidth>

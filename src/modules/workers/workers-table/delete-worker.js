@@ -8,6 +8,9 @@ import { useMaterialUIController } from "context";
 import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
 import WorkerService from "services/worker/worker.service";
+import MDSnackbar from "components/MDSnackbar";
+import { useDataContextController } from "data-context/data-context";
+import { setRefresh } from "data-context/data-context";
 
 function DeleteWorker(props) {
   const { worker } = props;
@@ -16,12 +19,22 @@ function DeleteWorker(props) {
   const [disabled, setDisabled] = useState(false);
   const workerService = new WorkerService();
 
+  /* context */
+  const [generalController, generalDispatch] = useDataContextController();
+  const { refresh } = generalController;
+
+  /* notifications */
+  const [show, setShow] = useState(false);
+  const [generalMessage, setGeneralMessage] = useState("");
+  const toggleSnackbar = () => setShow(!show);
+
   const deleteWorker = async () => {
-    const del = await workerService.deleteWorker(worker.id);
-    console.log(del);
+    await workerService.deleteWorker(worker.id);
+    setRefresh(generalDispatch, !refresh)
+    setGeneralMessage("El empleado fue eliminado con exito");
+    toggleSnackbar();
     handleCloseConfigurator();
   };
-
 
   useEffect(() => {
     function handleDisabled() {
@@ -39,6 +52,15 @@ function DeleteWorker(props) {
 
   return (
     <ConfiguratorRoot variant="permanent" ownerState={{ openConfigurator: props.openDelete }}>
+      <MDSnackbar
+        color="info"
+        icon="notifications"
+        title="Notificacion"
+        content={generalMessage}
+        dateTime="Recientemente"
+        open={show}
+        close={toggleSnackbar}
+      />
       <MDBox
         display="flex"
         justifyContent="space-between"
@@ -73,12 +95,13 @@ function DeleteWorker(props) {
       <MDBox pt={0.5} pb={3} px={3}>
         <MDBox display="flex" justifyContent="center">
           <MDBox sx={{ mx: 1 }}>
-            <MDButton 
-              variant="outlined" 
-              size="medium" 
-              color="success" 
+            <MDButton
+              variant="outlined"
+              size="medium"
+              color="success"
               fullWidth
-              onClick={deleteWorker}>
+              onClick={deleteWorker}
+            >
               SI
             </MDButton>
           </MDBox>

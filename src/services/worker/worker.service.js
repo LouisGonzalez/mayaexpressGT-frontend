@@ -46,7 +46,7 @@ class WorkerService {
 
   workerToBranch(body) {
     return axios
-      .put(`${API_URL}/${WORKER_PATH}/add/worker-to-branch`, {
+      .post(`${API_URL}/${WORKER_PATH}/add/worker-to-branch`, {
         ...body,
       })
       .then((response) => {

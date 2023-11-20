@@ -10,8 +10,14 @@ import { useState } from "react";
 import VehicleService from "services/vehicle/vehicle.service";
 import { useEffect } from "react";
 import VehicleActions from "./vehicle-actions";
+import { useDataContextController } from "data-context/data-context";
 
 export default function VehicleRow() {
+
+  /* context */
+  const [generalController, generalDispatch] = useDataContextController();
+  const { refresh } = generalController;
+
   const [vehicles, setVehicles] = useState();
   const [rows, setRows] = useState([]);
 
@@ -36,13 +42,13 @@ export default function VehicleRow() {
 
   useEffect(() => {
     getAllVehicles();
-  }, []);
+  }, [refresh]);
 
   useEffect(() => {
     if (vehicles !== undefined) {
       console.log(vehicles);
       const rowsTemp = [];
-      vehicles.content.forEach((vehicle) => {
+      vehicles.forEach((vehicle) => {
         rowsTemp.push({
           id: (
             <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
@@ -50,14 +56,14 @@ export default function VehicleRow() {
             </MDTypography>
           ),
           vehicletype: <VehicleType vehicleType={vehicle.vehicleType} plate={vehicle.plate} />,
-          maxweight: (
+          branchId: (
             <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-              {vehicle.max_weight}
+              {vehicle.warehouse !== null ? "Sucursal No." + vehicle.warehouse.id : "SIN ASIGNAR"}
             </MDTypography>
           ),
-          shipmentid: (
+          ubication: (
             <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-              {vehicle.shipment_id}
+              {vehicle.warehouse !== null ? vehicle.warehouse.department.name : "SIN ASIGNAR"}
             </MDTypography>
           ),
           action: <VehicleActions vehicle={vehicle} />,
@@ -71,8 +77,8 @@ export default function VehicleRow() {
     columns: [
       { Header: "Id", accessor: "id", align: "left" },
       { Header: "Especificaciones", accessor: "vehicletype", width: "45%", align: "left" },
-      { Header: "Peso maximo", accessor: "maxweight", align: "left" },
-      { Header: "Id. envio", accessor: "shipmentid", align: "center" },
+      { Header: "No. Sucursal", accessor: "branchId", align: "center" },
+      { Header: "Ubicacion", accessor: "ubication", align: "left" },
       { Header: "Actions", accessor: "action", align: "center" },
     ],
 

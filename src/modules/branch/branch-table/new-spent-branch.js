@@ -29,6 +29,7 @@ function NewSpentBranch(props) {
   const [spentSelected, setSpentSelected] = useState("");
   const [date, setDate] = useState('');
   const [description, setDescription] = useState('');
+  const [amount, setAmount] = useState(0);
   const { branch } = props;
 
   /* notifications */
@@ -43,12 +44,19 @@ function NewSpentBranch(props) {
   const newSpentOnBranch = async () => {
     if(description !== "" && date !== "" && spentSelected !== "" ){
       const createSpent = await branchService.createSpent({
-        idBranch: branch.id,
+        warehouse: {
+          id: branch.id,
+        },
         date: date,
         description: description,
+        costType: {
+          id: spentSelected,
+        },
       });
       //PONER AQUI UN NOTIFICATION DE LA PLANTILLA
-      console.log(createSpent);
+      console.log(`Nuevo gasto agregado con exito a la sucursal no.`);
+      setGeneralMessage(`Nuevo gasto agregado con exito a la sucursal no. ${branch.id}`);
+      toggleSnackbar();
       restartValues();
     } else {
       setGeneralMessage("Se tienen que llenar todos los campos");

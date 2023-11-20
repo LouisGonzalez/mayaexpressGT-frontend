@@ -28,10 +28,10 @@ export function BranchList() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      <MDBox borderRadius="lg" opacity={1} p={2}>
+      {/* <MDBox borderRadius="lg" opacity={1} p={2}>
         <MDButton onClick={handleOpenNewBranch}>Nueva sucursal</MDButton>
       </MDBox>
-      <CreateBranch open={openNewBranch} handleOpen={handleOpenNewBranch}/>
+      <CreateBranch open={openNewBranch} handleOpen={handleOpenNewBranch}/> */}
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>

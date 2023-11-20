@@ -11,13 +11,25 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
 import VehicleRow from "./vehicle-row";
+import MDButton from "components/MDButton";
+import { useState } from "react";
+import NewVehicle from "./new-vehicle";
 
 export function VehicleList() {
   const { columns, rows } = VehicleRow();
+  const [ openNewVehicle, setOpenNewVehicle ] = useState(false);
+
+  const handleNewVehicle = () => {
+    setOpenNewVehicle(!openNewVehicle);
+  }
 
   return (
     <DashboardLayout>
       <DashboardNavbar />
+      <MDBox borderRadius="lg" opacity={1} p={2}>
+        <MDButton onClick={handleNewVehicle}>Nueva vehiculo</MDButton>
+      </MDBox>
+      <NewVehicle handleOpen={handleNewVehicle} open={openNewVehicle}/>
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>

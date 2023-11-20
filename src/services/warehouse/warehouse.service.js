@@ -44,8 +44,8 @@ class WarehouseService {
     });
   }
 
-  packagesByWarehouse(idWarehouse) {
-    return axios.get(`${API_URL}/${WORKER_PATH}/${idWarehouse}/get-packages`).then((response) => {
+  tripsByWarehouse(idWarehouse) {
+    return axios.get(`${API_URL}/${WORKER_PATH}/get-trips/${idWarehouse}`).then((response) => {
       return response.data;
     });
   }
@@ -53,6 +53,40 @@ class WarehouseService {
   addPackage(body) {}
 
   removePackage(idPackage, idWarehouse) {}
+
+  packagesInDestination(idWarehouse){
+    return axios.get(`${API_URL}/${WORKER_PATH}/${idWarehouse}/get-packages-destination`).then((response) => {
+      return response.data;
+    })
+  }
+
+  tripDeparture(body){
+    return axios.post(`${API_URL}/${WORKER_PATH}/trip/trip-departure`, {
+      ...body
+    })
+    .then((response) => {
+      return response.data
+    })
+  }
+
+  tripEntrance(body) {
+    return axios.post(`${API_URL}/${WORKER_PATH}/trip/trip-entrance`, {
+      ...body
+    })
+    .then((response) => {
+      return response.data
+    })
+  }
+
+  receivePackage(body) {
+    return axios.post(`${API_URL}/${WORKER_PATH}/trip/receive-package`,{
+      ...body
+    })
+    .then((response) => {
+      return response.data
+    })
+  }
+
 }
 
 export default WarehouseService;

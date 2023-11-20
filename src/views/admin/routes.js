@@ -1,12 +1,5 @@
-import Dashboard from "layouts/dashboard";
 import Tables from "layouts/tables";
 import Billing from "layouts/billing";
-import RTL from "layouts/rtl";
-import Notifications from "layouts/notifications";
-import Profile from "layouts/profile";
-import SignIn from "layouts/authentication/sign-in";
-import SignUp from "layouts/authentication/sign-up";
-
 // @mui icons
 import Icon from "@mui/material/Icon";
 import { WorkersList } from "modules/workers/workers-table/workers-list";
@@ -17,6 +10,12 @@ import { VehicleList } from "modules/vehicle/vehicle-table/vehicle-list";
 import MDButton from "components/MDButton";
 import { PriceList } from "modules/price/price-list";
 import Shipment from "modules/shiprment";
+import { Reports } from "modules/reports/general-list";
+import { DecisionsView } from "modules/decisions-module/decisions-view";
+import AdminRouteGuard from "guards/admin-guard";
+import { PositionList } from "modules/workers/position/position-list";
+import Dashboard from "modules/dashboard/dashboard";
+import { CostList } from "modules/costs/costs-table/cost-list";
 
 const routes = [
   {
@@ -25,7 +24,11 @@ const routes = [
     key: "dashboard",
     icon: <Icon fontSize="small">dashboard</Icon>,
     route: "/dashboard",
-    component: <Dashboard />,
+    component: (
+      <AdminRouteGuard>
+        <Dashboard />
+      </AdminRouteGuard>
+    ),
   },
   {
     type: "collapse",
@@ -37,7 +40,43 @@ const routes = [
       </Icon>
     ),
     route: "/empleados",
-    component: <WorkersList />,
+    component: (
+      <AdminRouteGuard>
+        <WorkersList />
+      </AdminRouteGuard>
+    ),
+  },
+  {
+    type: "collapse",
+    name: "Puestos",
+    key: "puestos",
+    icon: (
+      <Icon fontSize="small">
+        <span class="material-symbols-outlined">work</span>{" "}
+      </Icon>
+    ),
+    route: "/puestos",
+    component: (
+      <AdminRouteGuard>
+        <PositionList />
+      </AdminRouteGuard>
+    ),
+  },
+  {
+    type: "collapse",
+    name: "Costos",
+    key: "costos",
+    icon: (
+      <Icon fontSize="small">
+        <span class="material-symbols-outlined">attach_money</span>{" "}
+      </Icon>
+    ),
+    route: "/costos",
+    component: (
+      <AdminRouteGuard>
+        <CostList />
+      </AdminRouteGuard>
+    ),
   },
   {
     type: "collapse",
@@ -49,7 +88,11 @@ const routes = [
       </Icon>
     ),
     route: "/vehiculos",
-    component: <VehicleList/>,
+    component: (
+      <AdminRouteGuard>
+        <VehicleList />
+      </AdminRouteGuard>
+    ),
   },
   {
     type: "collapse",
@@ -61,7 +104,11 @@ const routes = [
       </Icon>
     ),
     route: "/sucursales",
-    component: <BranchList />,
+    component: (
+      <AdminRouteGuard>
+        <BranchList />
+      </AdminRouteGuard>
+    ),
   },
   {
     type: "collapse",
@@ -73,15 +120,11 @@ const routes = [
       </Icon>
     ),
     route: "/bodegas",
-    component: <WarehouseList />,
-  },
-  {
-    type: "collapse",
-    name: "Pagos",
-    key: "pagos",
-    icon: <Icon fontSize="small">receipt_long</Icon>,
-    route: "/pagos",
-    component: <Billing />,
+    component: (
+      <AdminRouteGuard>
+        <WarehouseList />
+      </AdminRouteGuard>
+    ),
   },
   {
     type: "collapse",
@@ -89,7 +132,11 @@ const routes = [
     key: "envio",
     icon: <Icon fontSize="small">receipt_long</Icon>,
     route: "/envio",
-    component: <Shipment />,
+    component: (
+      <AdminRouteGuard>
+        <Shipment />
+      </AdminRouteGuard>
+    ),
   },
   {
     type: "collapse",
@@ -97,10 +144,14 @@ const routes = [
     key: "tarifarios",
     icon: <Icon fontSize="small">format_textdirection_r_to_l</Icon>,
     route: "/tarifarios",
-    component: <PriceList />,
+    component: (
+      <AdminRouteGuard>
+        <PriceList />
+      </AdminRouteGuard>
+    ),
   },
   {
-    type: "collapse", 
+    type: "collapse",
     name: "Departamentos",
     key: "departamentos",
     icon: (
@@ -109,15 +160,43 @@ const routes = [
       </Icon>
     ),
     route: "/departamentos",
-    component: <DestinationsList />,
+    component: (
+      <AdminRouteGuard>
+        <DestinationsList />
+      </AdminRouteGuard>
+    ),
   },
   {
     type: "collapse",
     name: "Reportes",
     key: "reportes",
-    icon: <Icon fontSize="small">person</Icon>,
+    icon: (
+      <Icon fontSize="small">
+        <span class="material-symbols-outlined">description</span>
+      </Icon>
+    ),
     route: "/reportes",
-    component: <Profile />,
+    component: (
+      <AdminRouteGuard>
+        <Reports />
+      </AdminRouteGuard>
+    ),
+  },
+  {
+    type: "collapse",
+    name: "Modulo decisional",
+    key: "modulo-decisional",
+    icon: (
+      <Icon fontSize="small">
+        <span class="material-symbols-outlined">gavel</span>
+      </Icon>
+    ),
+    route: "/modulo-decisional",
+    component: (
+      <AdminRouteGuard>
+        <DecisionsView />
+      </AdminRouteGuard>
+    ),
   },
 ];
 

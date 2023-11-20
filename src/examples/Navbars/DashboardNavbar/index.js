@@ -114,11 +114,13 @@ function DashboardNavbar({ absolute, light, isMini }) {
     >
       <NotificationItem
         icon={
-          <MDButton onClick={logOut}>
-            <Icon>
-              <span class="material-symbols-outlined">logout</span>
-            </Icon>
-          </MDButton>
+          <Link to={{ pathname: `/login` }}>
+            <MDButton onClick={logOut}>
+              <Icon>
+                <span class="material-symbols-outlined">logout</span>
+              </Icon>
+            </MDButton>
+          </Link>
         }
         title="Log out"
       />

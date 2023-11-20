@@ -13,12 +13,18 @@ import BranchService from "services/branch/branch.service";
 import { SelectChangeEvent } from "@mui/material/Select";
 import MDSnackbar from "components/MDSnackbar";
 import WorkerService from "services/worker/worker.service";
+import { useDataContextController } from "data-context/data-context";
+import { setRefresh } from "data-context/data-context";
 
 function WorkerToBranch(props) {
   /* general */
   const [controller, dispatch] = useMaterialUIController();
   const { darkMode } = controller;
   const [disabled, setDisabled] = useState(false);
+
+  /* context */
+  const [generalController, generalDispatch] = useDataContextController();
+  const { refresh } = generalController;
 
   /* specific */
   const { worker } = props;
@@ -45,11 +51,12 @@ function WorkerToBranch(props) {
   const addWorkerToBranch = async () => {
     if (branchSelected !== "") {
       const update = await workerService.workerToBranch({
-        workerId: worker.id,
-        branchId: branchSelected,
+        employee: worker.id,
+        branch: branchSelected,
       });
       console.log(update);
-      setGeneralMessage(update.message);
+      setRefresh(generalDispatch, !refresh)
+      setGeneralMessage("El empleado fue asignado con exito");
       toggleSnackbar();
       handleCloseConfigurator();
     } else {
@@ -147,8 +154,8 @@ function WorkerToBranch(props) {
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                {branches.content.map((branch) => (
-                  <MenuItem value={branch.id}>{branch.address}</MenuItem>
+                {branches.map((branch) => (
+                  <MenuItem value={branch.id}>Sucursal No. {branch.id}</MenuItem>
                 ))}
               </Select>
             </FormControl>

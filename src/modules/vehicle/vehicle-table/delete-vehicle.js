@@ -8,6 +8,9 @@ import { useMaterialUIController } from "context";
 import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
 import VehicleService from "services/vehicle/vehicle.service";
+import { useDataContextController } from "data-context/data-context";
+import { setRefresh } from "data-context/data-context";
+import MDSnackbar from "components/MDSnackbar";
 
 function DeleteVehicle(props) {
   const { vehicle } = props;
@@ -16,9 +19,21 @@ function DeleteVehicle(props) {
   const [disabled, setDisabled] = useState(false);
   const vehicleService = new VehicleService();
 
+  /* context */
+  const [generalController, generalDispatch] = useDataContextController();
+  const { refresh } = generalController;
+
+  /* notifications */
+  const [show, setShow] = useState(false);
+  const [generalMessage, setGeneralMessage] = useState("");
+  const toggleSnackbar = () => setShow(!show);
+
   const deleteVehicle = async () => {
     const del = await vehicleService.del(vehicle.id);
     console.log(del);
+    setRefresh(generalDispatch, !refresh);
+    setGeneralMessage("El vehiculo fue eliminado con exito");
+    toggleSnackbar();
     handleCloseConfigurator();
   };
 
@@ -38,6 +53,15 @@ function DeleteVehicle(props) {
 
   return (
     <ConfiguratorRoot variant="permanent" ownerState={{ openConfigurator: props.openDelete }}>
+      <MDSnackbar
+        color="info"
+        icon="notifications"
+        title="Notificacion"
+        content={generalMessage}
+        dateTime="Recientemente"
+        open={show}
+        close={toggleSnackbar}
+      />
       <MDBox
         display="flex"
         justifyContent="space-between"

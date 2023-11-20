@@ -58,6 +58,12 @@ class BranchService {
     })
   }
 
+  branchesByDestination(idDestination) {
+    return axios.get(`${API_URL}/${WORKER_PATH}/branches-by-department/${idDestination}`).then((response) => {
+      return response.data
+    }) 
+  }
+
 }
 
 export default BranchService;

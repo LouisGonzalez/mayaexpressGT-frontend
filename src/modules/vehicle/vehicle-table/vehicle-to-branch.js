@@ -23,6 +23,7 @@ function VehicleToBranch(props) {
   const [branches, setBranches] = useState();
   const [branchSelected, setBranchSelected] = useState('');
 
+  /* notifications */
   const [show, setShow] = useState(false);
   const [generalMessage, setGeneralMessage] = useState("");
   const toggleSnackbar = () => setShow(!show);
@@ -146,7 +147,7 @@ function VehicleToBranch(props) {
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                {branches.content.map((branch) => (
+                {branches.map((branch) => (
                   <MenuItem value={branch.id}>{branch.address}</MenuItem>
                 ))}
               </Select>

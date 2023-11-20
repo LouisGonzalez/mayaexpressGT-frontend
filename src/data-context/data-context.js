@@ -17,6 +17,12 @@ function reducer(state, action) {
         case "AUTH_TOKEN": {
             return { ...state, authToken: action.value }
         }
+        case "TYPE_TOKEN": {
+            return { ...state, typeToken: action.value } 
+        }
+        case "REFRESH": {
+            return { ...state, refresh: action.value }
+        }
         default: {
             throw new Error(`Unhandled action type: ${action.type}`);
         }
@@ -25,7 +31,9 @@ function reducer(state, action) {
 
 function DataContextControllerProvider({ children }) {
     const initialState = {
-        authToken: ""
+        authToken: "",
+        typeToken: "",
+        refresh: true
     }
     const [controller, dispatch] = useReducer(reducer, initialState);
     const value = useMemo(() => [controller, dispatch], [controller, dispatch]);
@@ -49,8 +57,14 @@ DataContextControllerProvider.propTypes = {
 
 const setAuthToken = (dispatch, value) => dispatch({ type: "AUTH_TOKEN", value });
 
+const setTypeToken = (dispatch, value) => dispatch({ type: "TYPE_TOKEN", value });
+
+const setRefresh = (dispatch, value) => dispatch({ type: "REFRESH", value })
+
 export {
     DataContextControllerProvider,
     useDataContextController,
-    setAuthToken
+    setAuthToken,
+    setTypeToken,
+    setRefresh
 }

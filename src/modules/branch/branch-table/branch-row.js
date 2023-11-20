@@ -9,6 +9,7 @@ import { useState } from "react";
 import BranchService from "services/branch/branch.service";
 import { useEffect } from "react";
 import BranchActions from "./branch-actions";
+import MDBadge from "components/MDBadge";
 
 export default function BranchRow() {
   const [branches, setBranches] = useState();
@@ -18,6 +19,7 @@ export default function BranchRow() {
 
   async function getAllBranches() {
     const branches2 = await branchService.getAll();
+    console.log(branches2)
     setBranches(branches2);
   }
 
@@ -33,6 +35,18 @@ export default function BranchRow() {
     </MDBox>
   );
 
+    const BranchDepartment = ({ department, region}) => (
+      <MDBox display="flex" alignItems="center" lineHeight={1}>
+        <MDBox ml={2} lineHeight={1}>
+          <MDTypography display="block" variant="button" fontWeight="medium">
+            {department}
+          </MDTypography>
+          <MDTypography variant="caption">{region}</MDTypography>
+        </MDBox>
+      </MDBox>
+    );
+
+
   useEffect(() => {
     getAllBranches();
   }, []);
@@ -41,24 +55,25 @@ export default function BranchRow() {
     if (branches !== undefined) {
       console.log(branches);
       const rowsTemp = [];
-      branches.content.forEach((branch) => {
+      branches.forEach((branch) => {
         rowsTemp.push({
           id: (
             <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-              {branch.id}
+              Sucursal No. {branch.id}
             </MDTypography>
           ),
           address: <BranchAddress image={team2} address={branch.address} />,
-          vehiculeday: (
-            <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-              {branch.vehicule_day}
-            </MDTypography>
-          ),
-          warehouseid: (
-            <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-              {branch.warehouse_id}
-            </MDTypography>
-          ),
+          isEnable:
+            branch.isEnable === true ? (
+              <MDBox ml={-1}>
+                <MDBadge badgeContent="enabled" color="success" variant="gradient" size="sm" />
+              </MDBox>
+            ) : (
+              <MDBox ml={-1}>
+                <MDBadge badgeContent="not enabled" color="error" variant="gradient" size="sm" />
+              </MDBox>
+            ),
+          department: <BranchDepartment department={branch.department.name} region={branch.department.region} />,
           action: <BranchActions branch={branch} />,
         });
       });
@@ -70,8 +85,8 @@ export default function BranchRow() {
     columns: [
       { Header: "Id", accessor: "id", align: "left" },
       { Header: "Direccion", accessor: "address", width: "45%", align: "left" },
-      { Header: "Vehiculo", accessor: "vehiculeday", align: "left" },
-      { Header: "No. Bodega", accessor: "warehouseid", align: "center" },
+      { Header: "Habilitada", accessor: "isEnable", align: "center" },
+      { Header: "Departamento", accessor: "department", align: "center" },
       { Header: "Actions", accessor: "action", align: "center" },
     ],
 

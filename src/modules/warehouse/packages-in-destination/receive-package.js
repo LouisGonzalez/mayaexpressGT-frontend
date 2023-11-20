@@ -7,22 +7,36 @@ import ConfiguratorRoot from "examples/Configurator/ConfiguratorRoot";
 import { useMaterialUIController } from "context";
 import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
-import BranchService from "services/branch/branch.service";
+import MDSnackbar from "components/MDSnackbar";
 import WarehouseService from "services/warehouse/warehouse.service";
+import { useDataContextController } from "data-context/data-context";
+import { setRefresh } from "data-context/data-context";
 
-function RemovePackageWarehouse(props) {
+function ReceivePackage(props) {
+  const { worker } = props;
   const [controller, dispatch] = useMaterialUIController();
   const { darkMode } = controller;
   const [disabled, setDisabled] = useState(false);
 
+  /* notifications */
+  const [show, setShow] = useState(false);
+  const [generalMessage, setGeneralMessage] = useState("");
+  const toggleSnackbar = () => setShow(!show);
+
+  /* context */
+  const [generalController, generalDispatch] = useDataContextController();
+  const { refresh } = generalController;
+
   const warehouseService = new WarehouseService();
-  const { pack, idWarehouse} = props;
-  
-  const removePackage = async () => {
-    const del = await warehouseService.removePackage(pack.idPackage, idWarehouse);
-    //poner aqui un efecto de notificacion
-    console.log(del);
-    handleCloseConfigurator();
+
+  const receiveShipment = async () => {
+    console.log(props.trip, "EL TRIP");
+    setRefresh(generalDispatch, !refresh)
+    const receive2 = await warehouseService.receivePackage({
+      shipmentId: props.trip.shipmentId,
+      warehouseId: props.idWarehouse,
+      date: props.trip.date,
+    });
   };
 
   useEffect(() => {
@@ -40,7 +54,16 @@ function RemovePackageWarehouse(props) {
   const handleCloseConfigurator = () => props.handleOpen();
 
   return (
-    <ConfiguratorRoot variant="permanent" ownerState={{ openConfigurator: props.open}}>
+    <ConfiguratorRoot variant="permanent" ownerState={{ openConfigurator: props.open }}>
+      <MDSnackbar
+        color="info"
+        icon="notifications"
+        title="Notificacion"
+        content={generalMessage}
+        dateTime="Recientemente"
+        open={show}
+        close={toggleSnackbar}
+      />
       <MDBox
         display="flex"
         justifyContent="space-between"
@@ -80,7 +103,7 @@ function RemovePackageWarehouse(props) {
               size="medium"
               color="success"
               fullWidth
-              onClick={removePackage}
+              onClick={receiveShipment}
             >
               SI
             </MDButton>
@@ -102,4 +125,4 @@ function RemovePackageWarehouse(props) {
   );
 }
 
-export default RemovePackageWarehouse;
+export default ReceivePackage;

@@ -59,7 +59,6 @@ function EditWarehouse(props) {
         px={3}
       >
         <MDBox>
-          <MDTypography variant="h5">adfsasfasd</MDTypography>
           <MDTypography variant="body2" color="text">
             Modifica la informacion de la bodega
           </MDTypography>

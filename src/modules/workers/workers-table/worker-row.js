@@ -14,8 +14,13 @@ import DeleteWorker from "./delete-worker";
 import WorkerService from "services/worker/worker.service";
 import { useEffect } from "react";
 import WorkerActions from "./worker-actions";
+import { useDataContextController } from "data-context/data-context";
 
 export default function WorkerRow() {
+
+  /* context */
+  const [generalController, generalDispatch] = useDataContextController();
+  const { refresh } = generalController;
 
   const [ workers, setWorkers ] = useState();
   const [ rows, setRows ] = useState([]);
@@ -51,7 +56,7 @@ export default function WorkerRow() {
 
   useEffect(() => {
     getAllUsers();
-  }, [])
+  }, [refresh])
   
   useEffect(() => {
     if(workers !== undefined){
@@ -78,6 +83,11 @@ export default function WorkerRow() {
               {worker.position}
             </MDTypography>
           ),
+          branchId: (
+            <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+              {worker.warehouse === null ? 'SIN ASIGNAR' : "Sucursal No." + worker.warehouse.id}
+            </MDTypography>
+          ),
           action: <WorkerActions worker={worker} />,
         });
       })
@@ -88,14 +98,15 @@ export default function WorkerRow() {
 
   return {
     columns: [
-      { Header: "Nombre", accessor: "name", width: "45%", align: "left" },
+      { Header: "Nombre", accessor: "name", width: "30%", align: "left" },
       { Header: "Rol", accessor: "role", align: "left" },
       { Header: "Horas por dia", accessor: "hoursperday", align: "center" },
       { Header: "Username", accessor: "username", align: "center" },
       { Header: "Posicion", accessor: "position", align: "center" },
+      { Header: "No. Sucursal", accessor: "branchId", align: "center" },
       { Header: "Accion", accessor: "action", align: "center" },
     ],
 
-    rows: rows
+    rows: rows,
   };
 }
